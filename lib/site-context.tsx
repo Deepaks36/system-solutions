@@ -57,10 +57,24 @@ function mergeLanguageContent(defaultLang: SiteContent, storedLang?: Partial<Sit
 }
 
 function mergeContentWithDefaults(stored: Record<Language, SiteContent>): Record<Language, SiteContent> {
-  return {
+  const merged = {
     en: mergeLanguageContent(defaultContent.en, stored.en),
     dv: mergeLanguageContent(defaultContent.dv, stored.dv),
   }
+
+  // Migrate older stored data where dv careers/success stories were left in the old English defaults.
+  if (
+    merged.dv.careers.title === "Join Our Team" &&
+    merged.dv.successStories.title === "Our Success Stories"
+  ) {
+    merged.dv = {
+      ...merged.dv,
+      careers: defaultContent.dv.careers,
+      successStories: defaultContent.dv.successStories,
+    }
+  }
+
+  return merged
 }
 
 export function SiteProvider({ children }: { children: React.ReactNode }) {

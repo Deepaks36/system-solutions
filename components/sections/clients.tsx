@@ -170,7 +170,7 @@ export function ClientsSection() {
             >
               {/* Admin overlay */}
               {isAdmin && isEditing && (
-                <div className="absolute -top-2 end-0 z-10 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="absolute -top-2 end-0 z-10 flex gap-1">
                   <button
                     onClick={() => setEditingIndex(i)}
                     className="rounded-lg bg-primary p-1.5 text-primary-foreground shadow-md transition-colors hover:bg-primary/90"

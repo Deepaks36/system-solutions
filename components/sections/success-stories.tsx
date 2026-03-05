@@ -11,6 +11,16 @@ export function SuccessStoriesSection() {
   const { content, updateContent, isEditing, language } = useSite()
   const { ref, isVisible } = useScrollAnimation(0.1)
   const isDv = language === "dv"
+  const uiText = {
+    addNewStory: isDv ? "Add New Success Story (DV)" : "Add New Success Story",
+    clientName: isDv ? "Client Name (DV)" : "Client Name",
+    projectTitle: isDv ? "Project Title (DV)" : "Project Title",
+    resultHint: isDv ? "Result (e.g., 40% Increase) (DV)" : "Result (e.g., 40% Increase)",
+    imageUrl: isDv ? "Image URL (optional) (DV)" : "Image URL (optional)",
+    description: isDv ? "Description (DV)" : "Description",
+    save: isDv ? "Save (DV)" : "Save",
+    addStory: isDv ? "Add Story (DV)" : "Add Story",
+  }
   
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -68,12 +78,12 @@ export function SuccessStoriesSection() {
           />
         </div>
 
-        {/* Stories Grid */}
+        {/* Stories Grid - Card Layout */}
         <div className="grid gap-6 md:grid-cols-2">
           {content.successStories.items.map((story, i) => (
             <div
               key={story.id}
-              className={`group relative overflow-hidden rounded-2xl bg-card border border-border shadow-sm transition-all duration-500 hover:shadow-lg hover:border-primary/30 ${
+              className={`group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-500 hover:shadow-lg hover:border-primary/30 ${
                 isVisible ? "animate-fade-in-up" : "opacity-0 translate-y-8"
               }`}
               style={{ animationDelay: `${i * 150}ms` }}
@@ -86,28 +96,28 @@ export function SuccessStoriesSection() {
                       value={story.client}
                       onChange={(e) => handleUpdateStory(story.id, "client", e.target.value)}
                       className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Client Name"
+                      placeholder={uiText.clientName}
                     />
                     <input
                       type="text"
                       value={story.title}
                       onChange={(e) => handleUpdateStory(story.id, "title", e.target.value)}
                       className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Project Title"
+                      placeholder={uiText.projectTitle}
                     />
                     <input
                       type="text"
                       value={story.result}
                       onChange={(e) => handleUpdateStory(story.id, "result", e.target.value)}
                       className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Result (e.g., 40% Increase)"
+                      placeholder={uiText.resultHint}
                     />
                   </div>
                   <textarea
                     value={story.description}
                     onChange={(e) => handleUpdateStory(story.id, "description", e.target.value)}
                     className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                    placeholder="Description"
+                    placeholder={uiText.description}
                     rows={3}
                   />
                   <div className="flex gap-2 justify-end">
@@ -116,13 +126,13 @@ export function SuccessStoriesSection() {
                       className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                     >
                       <Save className="h-4 w-4" />
-                      Save
+                      {uiText.save}
                     </button>
                   </div>
                 </div>
               ) : (
                 <>
-                  {/* Image */}
+                  {/* Image Section */}
                   <div className="relative h-48 overflow-hidden">
                     <EditableImage
                       src={story.image}
@@ -162,18 +172,18 @@ export function SuccessStoriesSection() {
                     )}
                   </div>
                   
-                  {/* Content */}
+                  {/* Content Section */}
                   <div className="p-6">
                     <EditableText
                       value={story.description}
                       onSave={(val) => handleUpdateStory(story.id, "description", val)}
                       as="p"
-                      className="text-sm text-muted-foreground mb-4"
+                      className="text-sm text-muted-foreground mb-4 line-clamp-3"
                       multiline
                     />
                     
                     {/* Result Badge */}
-                    <div className="flex items-center gap-2 text-primary">
+                    <div className="flex items-center gap-2 text-primary bg-primary/10 px-4 py-2 rounded-lg">
                       <TrendingUp className="h-5 w-5" />
                       <EditableText
                         value={story.result}
@@ -195,7 +205,7 @@ export function SuccessStoriesSection() {
             {showAddForm ? (
               <div className="mt-6 rounded-xl border border-primary bg-card p-6 shadow-md">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-card-foreground">Add New Success Story</h3>
+                  <h3 className="text-lg font-semibold text-card-foreground">{uiText.addNewStory}</h3>
                   <button
                     onClick={() => setShowAddForm(false)}
                     className="rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -210,35 +220,35 @@ export function SuccessStoriesSection() {
                       value={newStory.client}
                       onChange={(e) => setNewStory({ ...newStory, client: e.target.value })}
                       className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Client Name *"
+                      placeholder={`${uiText.clientName} *`}
                     />
                     <input
                       type="text"
                       value={newStory.title}
                       onChange={(e) => setNewStory({ ...newStory, title: e.target.value })}
                       className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Project Title *"
+                      placeholder={`${uiText.projectTitle} *`}
                     />
                     <input
                       type="text"
                       value={newStory.result}
                       onChange={(e) => setNewStory({ ...newStory, result: e.target.value })}
                       className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Result (e.g., 40% Increase) *"
+                      placeholder={`${uiText.resultHint} *`}
                     />
                     <input
                       type="text"
                       value={newStory.image}
                       onChange={(e) => setNewStory({ ...newStory, image: e.target.value })}
                       className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                      placeholder="Image URL (optional)"
+                      placeholder={uiText.imageUrl}
                     />
                   </div>
                   <textarea
                     value={newStory.description}
                     onChange={(e) => setNewStory({ ...newStory, description: e.target.value })}
                     className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-                    placeholder="Description *"
+                    placeholder={`${uiText.description} *`}
                     rows={3}
                   />
                   <div className="flex gap-2 justify-end">
@@ -248,7 +258,7 @@ export function SuccessStoriesSection() {
                       className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Save className="h-4 w-4" />
-                      Add Story
+                      {uiText.addStory}
                     </button>
                   </div>
                 </div>
@@ -259,7 +269,7 @@ export function SuccessStoriesSection() {
                 className="mt-6 flex items-center gap-2 rounded-lg border border-dashed border-border bg-transparent px-4 py-3 text-sm font-medium text-muted-foreground hover:border-primary hover:text-primary transition-colors w-full justify-center"
               >
                 <Plus className="h-4 w-4" />
-                Add New Success Story
+                {uiText.addNewStory}
               </button>
             )}
           </>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSite } from "@/lib/site-context"
+import { defaultContent } from "@/lib/content"
 import { useTheme } from "next-themes"
 import { Menu, X, Sun, Moon, Globe, Lock } from "lucide-react"
 
@@ -46,6 +47,12 @@ export function Navbar() {
   }
 
   const isDv = language === "dv"
+  const requiredLinks = defaultContent[language].nav.links
+  const customLinks = content.nav.links ?? []
+  const navLinks = requiredLinks.map((requiredLink) => {
+    const match = customLinks.find((link) => link.href === requiredLink.href)
+    return match ?? requiredLink
+  }).concat(customLinks.filter((link) => !requiredLinks.some((requiredLink) => requiredLink.href === link.href)))
 
   return (
     <>
@@ -57,10 +64,10 @@ export function Navbar() {
         }`}
         dir={isDv ? "rtl" : "ltr"}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Brand */}
-            <a href="#home" className="flex items-center gap-2">
+        <div className="mx-auto max-w-screen-2xl px-3 sm:px-4 lg:px-5">
+          <div className="flex h-16 items-center gap-3">
+            {/* Brand - as link */}
+            <a href="#home" className="flex items-center gap-2 shrink-0">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
                 <span className="text-sm font-bold text-primary-foreground">SS</span>
               </div>
@@ -73,23 +80,23 @@ export function Navbar() {
               </span>
             </a>
 
-            {/* Desktop links */}
-            <div className="hidden items-center gap-1 lg:flex">
-              {content.nav.links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary ${
-                    scrolled ? "text-foreground" : "text-foreground"
-                  }`}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
+            {/* Right side links + controls */}
+            <div className="ml-auto flex items-center gap-2">
+              {/* Desktop links */}
+              <div className="hidden items-center gap-1 lg:flex">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary ${
+                      scrolled ? "text-foreground" : "text-foreground"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
 
-            {/* Right side controls */}
-            <div className="flex items-center gap-2">
               {/* Language Switcher */}
               <button
                 onClick={() => setLanguage(language === "en" ? "dv" : "en")}
@@ -160,7 +167,7 @@ export function Navbar() {
           {mobileOpen && (
             <div className="border-t border-border bg-background/95 backdrop-blur-md lg:hidden" dir={isDv ? "rtl" : "ltr"}>
               <div className="flex flex-col gap-1 px-2 py-3">
-                {content.nav.links.map((link) => (
+                {navLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.href}
@@ -223,7 +230,7 @@ export function Navbar() {
                 Cancel
               </button>
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">Default: admin / admin123</p>
+            {/* <p className="mt-3 text-xs text-muted-foreground text-center">Default: admin / admin123</p> */}
           </div>
         </div>
       )}
