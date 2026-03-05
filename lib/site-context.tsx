@@ -62,15 +62,39 @@ function mergeContentWithDefaults(stored: Record<Language, SiteContent>): Record
     dv: mergeLanguageContent(defaultContent.dv, stored.dv),
   }
 
-  // Migrate older stored data where dv careers/success stories were left in the old English defaults.
-  if (
-    merged.dv.careers.title === "Join Our Team" &&
-    merged.dv.successStories.title === "Our Success Stories"
-  ) {
+  // Migrate older stored dv navbar data that remained in English.
+  const hasStaleDvNav =
+    merged.dv.nav.languageLabel === "Language" ||
+    merged.dv.nav.adminLogin === "Login" ||
+    merged.dv.nav.links.some((link) =>
+      ["Home", "About", "Features", "Careers", "Success Stories", "Team", "Services", "Clients", "Contact"].includes(
+        link.label
+      )
+    )
+
+  // Migrate older stored data where dv careers/success stories were left in English or placeholder values.
+  const hasStaleDvCareers =
+    merged.dv.careers.title === "Join Our Team" ||
+    merged.dv.careers.title === "Join Our Team (DV)" ||
+    merged.dv.careers.title === "हमारी टीम से जुड़ें" ||
+    merged.dv.careers.sectionTag === "Careers" ||
+    merged.dv.careers.sectionTag === "Careers (DV)" ||
+    merged.dv.careers.sectionTag === "करियर"
+
+  const hasStaleDvSuccessStories =
+    merged.dv.successStories.title === "Our Success Stories" ||
+    merged.dv.successStories.title === "Our Success Stories (DV)" ||
+    merged.dv.successStories.title === "हमारी सफलता की कहानियां" ||
+    merged.dv.successStories.sectionTag === "Success Stories" ||
+    merged.dv.successStories.sectionTag === "Success Stories (DV)" ||
+    merged.dv.successStories.sectionTag === "सफलता की कहानियां"
+
+  if (hasStaleDvNav || hasStaleDvCareers || hasStaleDvSuccessStories) {
     merged.dv = {
       ...merged.dv,
-      careers: defaultContent.dv.careers,
-      successStories: defaultContent.dv.successStories,
+      nav: hasStaleDvNav ? defaultContent.dv.nav : merged.dv.nav,
+      careers: hasStaleDvCareers ? defaultContent.dv.careers : merged.dv.careers,
+      successStories: hasStaleDvSuccessStories ? defaultContent.dv.successStories : merged.dv.successStories,
     }
   }
 
@@ -94,9 +118,23 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  useEffect(() => {
+    const html = document.documentElement
+    html.lang = language
+    html.dir = language === "dv" ? "rtl" : "ltr"
+  }, [language])
+
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang)
     localStorage.setItem(LANG_KEY, lang)
+    // Force re-merge content with new language defaults
+    setAllContent((prev) => {
+      const stored = getStoredContent()
+      if (stored) {
+        return mergeContentWithDefaults(stored)
+      }
+      return prev
+    })
   }, [])
 
   const saveContent = useCallback((updated: Record<Language, SiteContent>) => {

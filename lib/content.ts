@@ -1,5 +1,11 @@
 export type Language = "en" | "dv"
 
+// Admin credentials - change these values to update login credentials
+export const ADMIN_CREDENTIALS = {
+  username: "admin",
+  password: "admin369"
+}
+
 export interface SiteContent {
   nav: {
     brand: string
@@ -358,18 +364,18 @@ export const defaultContent: Record<Language, SiteContent> = {
     nav: {
       brand: "Systems Solutions",
       links: [
-        { label: "Home", href: "#home" },
-        { label: "About", href: "#about" },
-        { label: "Features", href: "#features" },
-        { label: "Careers", href: "#careers" },
-        { label: "Success Stories", href: "#success-stories" },
-        { label: "Team", href: "#team" },
-        { label: "Services", href: "#services" },
-        { label: "Clients", href: "#clients" },
-        { label: "Contact", href: "#contact" },
+        { label: "ހޯމް", href: "#home" },
+        { label: "އަބައުޓް", href: "#about" },
+        { label: "ފީޗާޒް", href: "#features" },
+        { label: "ކެރިއާސް", href: "#careers" },
+        { label: "ސަކްސެސް ސްޓޯރީސް", href: "#success-stories" },
+        { label: "ޓީމް", href: "#team" },
+        { label: "ސާރވިސް", href: "#services" },
+        { label: "ކްލައިންޓުން", href: "#clients" },
+        { label: "ކޮންޓެކްޓް", href: "#contact" },
       ],
-      adminLogin: "Login",
-      languageLabel: "Language",
+      adminLogin: "ލޮގިން",
+      languageLabel: "ބަސް",
     },
     hero: {
       title: "Why Choose Systems Solutions?",
@@ -399,32 +405,80 @@ export const defaultContent: Record<Language, SiteContent> = {
       ],
     },
     careers: {
-      sectionTag: "Careers (DV)",
-      title: "Join Our Team (DV)",
-      subtitle: "Build Your Future with Systems Solutions (DV)",
+      sectionTag: "ކެރިއާސް",
+      title: "އަމިއްލަ ޓީމުގައި ގުޅޭށެވެ",
+      subtitle: "ސިސްޓަމްސް ސޮލިއުޝަންސް އެކު ތިޔަ މުސްތަގުބަލް ބިނާ ކުރޭ",
       positions: [
         {
           id: "1",
-          title: "Senior Software Engineer (DV)",
-          department: "Engineering (DV)",
-          location: "Male, Maldives (DV)",
-          type: "Full-time (DV)",
-          description: "We are looking for an experienced Senior Software Engineer. (DV)",
+          title: "ސީނިއާ ސޮފްޓްވެއާ އިންޖިނިއަރ",
+          department: "އިންޖިނިއަރިންގ",
+          location: "މާލެ، ދިވެހިރާއްޖެ",
+          type: "ފުލް-ޓައިމް",
+          description: "ތަޖުރިބާ ލިބިފައިވާ ސީނިއާ ސޮފްޓްވެއާ އިންޖިނިއަރެއް ބޭނުންވޭ.",
+        },
+        {
+          id: "2",
+          title: "ފުލް ސްޓެކް ޑެވެލޮޕަރ",
+          department: "އިންޖިނިއަރިންގ",
+          location: "މާލެ، ދިވެހިރާއްޖެ",
+          type: "ފުލް-ޓައިމް",
+          description: "އެންޓަޕްރައިޒް ލެވެލް ވެބް އެޕްލިކޭޝަން ބިނާ ކުރުމަށް ޓީމުގައި ގުޅޭ.",
+        },
+        {
+          id: "3",
+          title: "UI/UX ޑިޒައިނަރ",
+          department: "ޑިޒައިން",
+          location: "މާލެ، ދިވެހިރާއްޖެ",
+          type: "ފުލް-ޓައިމް",
+          description: "އެކަށޭނަ ބޭނުންކުރާ ފަސޭހަ އިންޓަރފޭސް ތައް ޑިޒައިން ކުރޭ.",
+        },
+        {
+          id: "4",
+          title: "ޕްރޮޖެކްޓް މެނޭޖަރ",
+          department: "މެނޭޖްމެންޓް",
+          location: "މާލެ، ދިވެހިރާއްޖެ",
+          type: "ފުލް-ޓައިމް",
+          description: "ޕްރޮޖެކްޓްތައް ލީޑް ކުރުމާއި ކްލައިންޓު އަދި ޓީމްތަކާ އެކު ކޯޑިނޭޓް ކުރޭ.",
         },
       ],
     },
     successStories: {
-      sectionTag: "Success Stories (DV)",
-      title: "Our Success Stories (DV)",
-      subtitle: "Real Results from Real Clients (DV)",
+      sectionTag: "ސަކްސެސް ސްޓޯރީސް",
+      title: "އަމިއްލަ ސަކްސެސް ސްޓޯރީސް",
+      subtitle: "ހަގީގީ ކްލައިންޓުންނާ ހަގީގީ ނަތީޖާ",
       items: [
         {
           id: "1",
-          client: "OBLU Resorts (DV)",
-          title: "Digital Transformation (DV)",
-          description: "40% efficiency improvement with BSOL ERP. (DV)",
+          client: "OBLU ރިސޯޓްސް",
+          title: "ޑިޖިޓަލް ޓްރާންސްފޯމޭޝަން",
+          description: "BSOL ERP ސޮލިއުޝަން މެދުވެރިކޮށް OBLU ރިސޯޓްސްގެ އޮޕަރޭޝަން މޮޑަނައިޒް ކުރެވި 40% އެފިޝިއެންސީ އިތުރުވި.",
           image: "/images/clients/oblu.jpg",
-          result: "40% Increase (DV)",
+          result: "40% އެފިޝިއެންސީ އިތުރު",
+        },
+        {
+          id: "2",
+          client: "HR-MetricS",
+          title: "HR މެނޭޖްމެންޓް ބަދަލު",
+          description: "ހެޕީ މާކެޓްއަށް ކޮމްޕްރެހެންސިވް HR ސޮލިއުޝަން ލާގުކުރެވި، ޕޭރޯލް އަދި އެޓެންޑެންސް ޓްރެކިންގ އޮޓޮމޭޓް ކުރެވި.",
+          image: "/images/clients/happymarket.jpg",
+          result: "99% ޕޭރޯލް ސައްހަތު",
+        },
+        {
+          id: "3",
+          client: "BSOL ERP",
+          title: "އެންޓަޕްރައިޒް ރިސޯސް ޕްލޭނިންގ",
+          description: "ވިލާ ގްރޫޕަށް ކަސްޓަމް ERP ސޮލިއުޝަން ޑިޕްލޯއި ކުރެވި، ގިނަ ހޮޓެލް ޕްރޮޕާޓީ އެކެއް ސިސްޓަމަށް ގުޅުނު.",
+          image: "/images/clients/villa.jpg",
+          result: "50% ވަގުތު ބައްޗެވުނު",
+        },
+        {
+          id: "4",
+          client: "MediaNET",
+          title: "ކަސްޓަމް ސޮފްޓްވެއާ ޑެވެލޮޕްމެންޓް",
+          description: "ޓާސްކް މެނޭޖްމެންޓް ސިސްޓަމެއް ބިނާ ކުރެވި އެއީ އެކަމުގެ ވޯކްފްލޯ އެފިޝިއެންސީ މުހިންމުކޮށް އިތުރު ކުރި.",
+          image: "/images/clients/medianet.jpg",
+          result: "35% ޕްރޮޑަކްޓިވިޓީ އިތުރު",
         },
       ],
     },

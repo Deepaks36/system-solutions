@@ -90,6 +90,15 @@ export function SuccessStoriesSection() {
             >
               {editingId === story.id ? (
                 <div className="p-6 space-y-4">
+                  <div className="relative h-48 overflow-hidden rounded-xl border border-input">
+                    <EditableImage
+                      src={story.image}
+                      alt={story.client}
+                      onSave={(val) => handleUpdateStory(story.id, "image", val)}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <input
                       type="text"
@@ -111,6 +120,13 @@ export function SuccessStoriesSection() {
                       onChange={(e) => handleUpdateStory(story.id, "result", e.target.value)}
                       className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
                       placeholder={uiText.resultHint}
+                    />
+                    <input
+                      type="text"
+                      value={story.image}
+                      onChange={(e) => handleUpdateStory(story.id, "image", e.target.value)}
+                      className="rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring sm:col-span-2"
+                      placeholder={uiText.imageUrl}
                     />
                   </div>
                   <textarea

@@ -158,14 +158,14 @@ export function ClientsSection() {
 
         {/* Logo Grid */}
         <div
-          className={`grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 transition-all duration-700 ${
+          className={`grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 transition-all duration-700 ${
             isVisible ? "animate-fade-in" : "opacity-0"
           }`}
         >
           {logos.map((logo, i) => (
             <div
               key={`${logo.name}-${i}`}
-              className="group relative flex flex-col items-center justify-center rounded-xl border border-border bg-card p-4 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
+              className="group relative flex flex-col items-center justify-center rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
               style={{ animationDelay: `${i * 30}ms` }}
             >
               {/* Admin overlay */}
@@ -192,17 +192,17 @@ export function ClientsSection() {
                 <img
                   src={logo.image}
                   alt={logo.name}
-                  width={120}
-                  height={80}
-                  className="h-12 w-auto object-contain opacity-70 transition-opacity group-hover:opacity-100"
+                  width={160}
+                  height={100}
+                  className="h-20 w-auto object-contain opacity-70 transition-opacity group-hover:opacity-100"
                   loading="lazy"
                 />
               ) : (
-                <div className="flex h-12 w-full items-center justify-center rounded bg-muted">
+                <div className="flex h-20 w-full items-center justify-center rounded bg-muted">
                   <span className="text-xs text-muted-foreground">No logo</span>
                 </div>
               )}
-              <span className="mt-2 text-center text-[11px] font-medium leading-tight text-muted-foreground">
+              <span className="mt-3 text-center text-xs font-medium leading-tight text-muted-foreground">
                 {logo.name}
               </span>
             </div>

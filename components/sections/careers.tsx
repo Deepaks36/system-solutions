@@ -51,7 +51,7 @@ export function CareersSection() {
   }
 
   return (
-    <section id="careers" className="bg-background py-24" dir={isDv ? "rtl" : "ltr"}>
+    <section id="careers" className="bg-background py-24" dir={isDv ? "rtl" : "ltr"} lang={isDv ? "dv" : "en"}>
       <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           className={`mb-16 text-center transition-all duration-700 ${

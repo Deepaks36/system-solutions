@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSite } from "@/lib/site-context"
-import { defaultContent } from "@/lib/content"
+import { defaultContent, ADMIN_CREDENTIALS } from "@/lib/content"
 import { useTheme } from "next-themes"
 import { Menu, X, Sun, Moon, Globe, Lock } from "lucide-react"
 
@@ -16,6 +16,7 @@ export function Navbar() {
   const [password, setPassword] = useState("")
   const [loginError, setLoginError] = useState("")
   const [mounted, setMounted] = useState(false)
+  const [activeSection, setActiveSection] = useState("")
 
   useEffect(() => {
     setMounted(true)
@@ -27,8 +28,35 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handler)
   }, [])
 
+  // Track active section based on scroll position
+  useEffect(() => {
+    const sections = ["home", "about", "features", "careers", "success-stories", "team", "services", "clients", "testimonials", "contact"]
+    
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100 // Offset for navbar
+      
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const top = element.offsetTop
+          const height = element.offsetHeight
+          
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+    
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll() // Initial check
+    
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   const handleLogin = () => {
-    if (username === "admin" && password === "admin123") {
+    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
       setIsAdmin(true)
       setShowLogin(false)
       setUsername("")
@@ -47,6 +75,8 @@ export function Navbar() {
   }
 
   const isDv = language === "dv"
+  const navTabActiveClass = "bg-primary/10 text-primary"
+  const navTabInactiveClass = "text-foreground hover:bg-primary/10 hover:text-primary"
   const requiredLinks = defaultContent[language].nav.links
   const customLinks = content.nav.links ?? []
   const navLinks = requiredLinks.map((requiredLink) => {
@@ -84,17 +114,23 @@ export function Navbar() {
             <div className="ml-auto flex items-center gap-2">
               {/* Desktop links */}
               <div className="hidden items-center gap-1 lg:flex">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary ${
-                      scrolled ? "text-foreground" : "text-foreground"
-                    }`}
-                  >
-                    {link.label}
-                  </a>
-                ))}
+                {navLinks.map((link) => {
+                  const sectionId = link.href.replace("#", "")
+                  const isActive = activeSection === sectionId
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      className={`rounded-md px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                        isActive 
+                          ? navTabActiveClass
+                          : navTabInactiveClass
+                      }`}
+                    >
+                      {link.label}
+                    </a>
+                  )
+                })}
               </div>
 
               {/* Language Switcher */}
@@ -106,7 +142,8 @@ export function Navbar() {
                 aria-label="Switch language"
               >
                 <Globe className="h-4 w-4" />
-                <span className="hidden sm:inline">{language === "en" ? "DV" : "EN"}</span>
+                <span className="hidden sm:inline">{content.nav.languageLabel}</span>
+                <span className="text-xs font-semibold uppercase">{language === "en" ? "DV" : "EN"}</span>
               </button>
 
               {/* Theme toggle */}
@@ -167,16 +204,24 @@ export function Navbar() {
           {mobileOpen && (
             <div className="border-t border-border bg-background/95 backdrop-blur-md lg:hidden" dir={isDv ? "rtl" : "ltr"}>
               <div className="flex flex-col gap-1 px-2 py-3">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-primary/10"
-                  >
-                    {link.label}
-                  </a>
-                ))}
+                {navLinks.map((link) => {
+                  const sectionId = link.href.replace("#", "")
+                  const isActive = activeSection === sectionId
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                        isActive 
+                          ? navTabActiveClass
+                          : "text-foreground/80 hover:bg-primary/10 hover:text-primary"
+                      }`}
+                    >
+                      {link.label}
+                    </a>
+                  )
+                })}
               </div>
             </div>
           )}

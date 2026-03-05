@@ -60,9 +60,9 @@ export function Footer() {
             {/* Social Icons */}
             <div className="flex items-center gap-3">
               {[
-                { icon: <Facebook className="h-4 w-4" />, label: "Facebook", href: "#" },
-                { icon: <Twitter className="h-4 w-4" />, label: "Twitter", href: "#" },
-                { icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn", href: "#" },
+                { icon: <Facebook className="h-4 w-4" />, label: "Facebook", href: "https://www.facebook.com/SystemsSolutionsPvtLtd/about" },
+                { icon: <Twitter className="h-4 w-4" />, label: "Twitter", href: "https://x.com/systmsolutions" },
+                { icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn", href: "https://mv.linkedin.com/company/systems-solutions-pvt-ltd" },
                 { icon: <Instagram className="h-4 w-4" />, label: "Instagram", href: "#" },
               ].map((social) => (
                 <a

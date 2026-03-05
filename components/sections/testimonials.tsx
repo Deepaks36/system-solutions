@@ -27,7 +27,7 @@ export function TestimonialsSection() {
   }, [next])
 
   return (
-    <section className="py-24" dir={isDv ? "rtl" : "ltr"}>
+    <section id="testimonials" className="py-24" dir={isDv ? "rtl" : "ltr"}>
       <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div
